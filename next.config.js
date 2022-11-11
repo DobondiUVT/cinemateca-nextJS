@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    basePath: "",
     reactStrictMode: true,
     experimental: { appDir: true },
     // define a remote pattern for TMDB
