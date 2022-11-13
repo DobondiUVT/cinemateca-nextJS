@@ -2,32 +2,34 @@ import Image from "next/image"
 import hero from "../assets/img/hero.jpg"
 export default function Hero() {
     return (
-        <section className="text-gray-600 body-font">
-            <div className="relative h-[calc(100vh-98px)]">
+        <section className="text-gray-600 body-font pt-6 lg:py-0">
+            <div className="lg:relative lg:h-[calc(100vh-64px)]">
                 <div className="container mx-auto">
-                    <div className="bg-base-100 flex-[60]">
-                        <div className="container mx-auto h-[calc(100vh-98px)] flex">
-                            <div className="my-auto w-[60%]">
-                                <h1 className="text-6xl font-bold text-white">
+                    <div className="bg-base-100 lg:flex-[60]">
+                        <div className="lg:h-[calc(100vh-64px)] flex">
+                            <div className="my-auto lg:w-[60%]">
+                                <h1 className="font-bold">
                                     Discover an ocean of cinema
                                 </h1>
-                                <p className="text-3xl text-gray-300 mt-2">
+                                <p className="h4 text-gray-300 mt-2 mb-4">
                                     Find masterpieces. Judge honestly. Share opinions.
                                 </p>
-                                <button className="text-xl shadow btn btn-primary btn-lg mt-6">Start browsing</button>
+                                <div className="flex flex-wrap gap-4">
+                                    <button className="shadow btn btn-primary text-neutral ">Start browsing</button>
+                                    <button className="shadow btn btn-outline btn-secondary ">HOW DOES IT WORK</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="absolute w-[40%] h-[calc(100vh-98px)] top-0 right-0">
+                <div className="w-full h-[240px] mt-12 lg:mt-0 lg:absolute lg:w-[40%] lg:h-[calc(100vh-64px)] lg:top-0 lg:right-0">
                     <div className="w-full h-full relative">
                         <Image
-                            className="object-cover"
+                            className="object-cover object-bottom"
                             src={hero}
                             alt=""
                             fill
                         />
-                        {/* <div className="absolute inset-0 bg-gradient-to-b from-black opacity-25" /> */}
                         <div className="absolute text-white italic bottom-4 right-4">
                             Dune (2022)
                         </div>

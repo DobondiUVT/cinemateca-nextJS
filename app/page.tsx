@@ -1,3 +1,4 @@
+import Benefits from "../components/Benefits"
 import Hero from "../components/Hero"
 import MoviesList from "../components/MoviesList"
 import Navbar from "../components/Navbar"
@@ -7,9 +8,10 @@ export default async function Page() {
     // const data = await getMostPopularMovies()
     // <MoviesList movies={data} />
     return (
-        <div >
-            <Navbar/>
+        <div>
+            <Navbar />
             <Hero />
+            <Benefits />
         </div>
     )
 }
