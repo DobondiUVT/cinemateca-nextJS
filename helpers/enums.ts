@@ -1,7 +1,7 @@
 export enum Criteria {
     popular = "popular",
-    rated = "rated",
-    playing = "playing",
+    top_rated = "top_rated",
+    now_playing = "now_playing",
     upcoming = "upcoming",
 }
 export enum Genre {

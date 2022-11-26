@@ -1,11 +1,24 @@
+import Breadcrumbs from "components/Breadcrumbs"
 import CardsSkeleton from "components/CardsSkeleton"
 import { getCardsSection } from "content/browseCards"
+import getFilterWording from "content/filterWording"
 import Link from "next/link"
 
 export default function Page() {
     const cardsSections = getCardsSection()
+    const wordings = getFilterWording()
+    const links = [
+        {
+            title: "Home",
+            link: "/",
+        },
+        {
+            title: "Movies",
+        },
+    ]
     return (
         <section>
+            <Breadcrumbs links={links} />
             <div className="container mx-auto py-8">
                 <p className="text-4xl">What are you searching for?</p>
                 <p className="text-md pt-3">
@@ -24,7 +37,7 @@ export default function Page() {
                                     href={card.link ? card.link : "#"}
                                 >
                                     <div className="bg-gray-800 hover:bg-secondary transition-colors p-6 text-lg font-bold rounded-lg capitalize">
-                                        {card.title}
+                                        {wordings.get(card.title) || card.title}
                                     </div>
                                 </Link>
                             ))}

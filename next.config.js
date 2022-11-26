@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const sources = ["/movies/popular", "/movies/rated"]
+const sources = [
+    "/movies/popular",
+    "/movies/upcoming",
+    "/movies/top_rated",
+    "/movies/now_playing",
+]
 let redirects = []
 sources.forEach((source) => {
     redirects.push({

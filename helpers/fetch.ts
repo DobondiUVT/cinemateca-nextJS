@@ -51,3 +51,19 @@ export const getTopRatedMovies = async (
     const results = await getResults(url)
     return results.slice(0, maximum)
 }
+export const getCriteriaMovies = async (
+    maximum: Number = 10,
+    page: Number = 1,
+    language: String = "en-US",
+    criteria: String = "popular"
+) => {
+    const url = linkCreator(
+        BASE_MOVIE_URL,
+        criteria,
+        process.env.TMDB_API_KEY,
+        [`language=${language}`, `page=${page}`]
+    )
+
+    const results = await getResults(url)
+    return results.slice(0, maximum)
+}
