@@ -38,10 +38,4 @@ h4, .h4 {
 
 .container {
     @apply px-4;
-    
-}
-@media screen and (min-width: 768px) {
-    .container {
-        @apply px-0;
-    }
 }

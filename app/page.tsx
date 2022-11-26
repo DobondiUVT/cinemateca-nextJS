@@ -9,7 +9,6 @@ export default async function Page() {
     // <MoviesList movies={data} />
     return (
         <div>
-            <Navbar />
             <Hero />
             <Benefits />
         </div>
