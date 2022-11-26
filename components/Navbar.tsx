@@ -30,12 +30,29 @@ function classNames(...classes) {
 export default function Navbar() {
     const [search, setSearch] = useState("")
     const router = useRouter()
-    console.log(router)
     return (
         <Disclosure as="nav" className="bg-slate-800">
             {({ open }) => (
                 <>
                     <div className="mx-auto container">
+                        <div className="sm:hidden w-full py-3">
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    router.push(`/search/${search}`)
+                                }}
+                            >
+                                <input type="submit" hidden />
+                                <input
+                                    id="search-input"
+                                    type="text"
+                                    placeholder="Search"
+                                    className="px-3 py-3 sm:py-2 rounded-md bg-gray-100 text-base-100 w-full"
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    value={search}
+                                />
+                            </form>
+                        </div>
                         <div className="relative flex h-16 items-center justify-between">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button*/}
@@ -89,7 +106,7 @@ export default function Navbar() {
                                                 {item.name}
                                             </Link>
                                         ))}
-                                        <div>
+                                        <div className="hidden sm:block">
                                             <form
                                                 onSubmit={(e) => {
                                                     e.preventDefault()
