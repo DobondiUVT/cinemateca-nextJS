@@ -5,7 +5,7 @@ export default function InfoTabs({ movieDetails, movieCredits }) {
     const [tabs, setTabs] = useState([1, 0, 0])
     return (
         <div>
-            <div className="tabs w-[80%]">
+            <div className="tabs w-full lg:w-[80%]">
                 <a
                     className={`tab flex-1 text-md pb-4 tab-bordered ${
                         tabs[0] ? "tab-active" : ""

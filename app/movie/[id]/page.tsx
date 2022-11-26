@@ -11,9 +11,9 @@ export default async function Page({ params }) {
     const movieCredits: Credits = await getMovieCredits(id)
     return (
         <div className="pb-40">
-            <div className="relative min-w-full h-[60vh]">
+            <div className="relative min-w-full h-[40vh] lg:h-[60vh]">
                 <Image
-                    className="object-cover object-top z-0"
+                    className="object-cover object-center z-0"
                     src={getMovieImage(movieDetails.backdrop_path)}
                     fill
                     alt={movieDetails.title}
@@ -23,8 +23,8 @@ export default async function Page({ params }) {
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-base-100 z-[1] opacity-50"></div>
             </div>
             <div className="mt-[-160px] relative z-10 container mx-auto">
-                <div className="grid grid-cols-4 gap-10 items-start">
-                    <div className="aspect-[2/3] relative rounded-md border border-gray-600 col-span-1">
+                <div className="grid grid-cols lg:grid-cols-4 gap-10 items-start">
+                    <div className="aspect-[2/3] w-[320px] lg:w-[unset] relative rounded-md border border-gray-600 col-span-1 mx-auto lg:mx-[unset]">
                         <Image
                             className="object-cover object-top z-0 rounded-md"
                             src={getMovieImage(movieDetails.poster_path)}
@@ -32,7 +32,7 @@ export default async function Page({ params }) {
                             alt={movieDetails.title}
                         />
                     </div>
-                    <div className="col-span-2">
+                    <div className="lg:col-span-2">
                         <h1 className="font-serif">{movieDetails.title}</h1>
                         <div className="flex gap-4 pt-2 pb-3">
                             <p className="text-md text-gray-400 font-serif">
