@@ -21,36 +21,6 @@ const getResults = async (url: string) => {
 }
 
 // Fetch functions
-export const getMostPopularMovies = async (
-    maximum: Number = 10,
-    page: Number = 1,
-    language: String = "en-US"
-) => {
-    const url = linkCreator(
-        BASE_MOVIE_URL,
-        "popular",
-        process.env.TMDB_API_KEY,
-        [`language=${language}`, `page=${page}`]
-    )
-
-    const results = await getResults(url)
-    return results.slice(0, maximum)
-}
-export const getTopRatedMovies = async (
-    maximum: Number = 10,
-    page: Number = 1,
-    language: String = "en-US"
-) => {
-    const url = linkCreator(
-        BASE_MOVIE_URL,
-        "top_rated",
-        process.env.TMDB_API_KEY,
-        [`language=${language}`, `page=${page}`]
-    )
-
-    const results = await getResults(url)
-    return results.slice(0, maximum)
-}
 export const getCriteriaMovies = async (
     maximum: Number = 10,
     page: Number = 1,
@@ -66,4 +36,27 @@ export const getCriteriaMovies = async (
 
     const results = await getResults(url)
     return results.slice(0, maximum)
+}
+export const getMovie = async (id: Number) => {
+    const url = linkCreator(
+        BASE_MOVIE_URL,
+        id.toString(),
+        process.env.TMDB_API_KEY,
+        []
+    )
+    const result = await fetcher(url)
+    return result
+}
+export const getMovieImage = (path: String) => {
+    return `https://image.tmdb.org/t/p/original${path}`
+}
+export const getMovieCredits = async (id: Number) => {
+    const url = linkCreator(
+        BASE_MOVIE_URL,
+        `${id}/credits`,
+        process.env.TMDB_API_KEY,
+        []
+    )
+    const result = await fetcher(url)
+    return result
 }

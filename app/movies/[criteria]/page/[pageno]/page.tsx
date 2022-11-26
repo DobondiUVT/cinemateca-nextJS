@@ -2,7 +2,7 @@ import Breadcrumbs from "components/Breadcrumbs"
 import Movies from "components/Movies"
 import Pagination from "components/Pagination"
 import getFilterWording from "content/filterWording"
-import { getCriteriaMovies, getMostPopularMovies } from "helpers/fetch"
+import { getCriteriaMovies } from "helpers/fetch"
 
 export default async function Page({ params }) {
     let { criteria, pageno } = params
