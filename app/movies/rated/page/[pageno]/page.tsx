@@ -1,16 +1,16 @@
-import Movies from "components/Movies"
 import Pagination from "components/Pagination"
-import { getMostPopularMovies } from "helpers/fetch"
+import { getTopRatedMovies } from "helpers/fetch"
+import Movies from "components/Movies"
 
 export default async function Page({ params }) {
     let { pageno } = params
     pageno = parseInt(pageno)
-    const data = await getMostPopularMovies(20, pageno)
+    const data = await getTopRatedMovies(20, pageno)
     return (
         <div>
-            <Movies data={data} title="Most popular movies" />
+            <Movies data={data} title="Top rated movies" />
             <Pagination
-                path="/movies/popular"
+                path="/movies/rated"
                 page={pageno}
                 last={pageno === 10 ? true : false}
             />

@@ -1,4 +1,18 @@
 /** @type {import('next').NextConfig} */
+const sources = ["/movies/popular", "/movies/rated"]
+let redirects = []
+sources.forEach((source) => {
+    redirects.push({
+        source: source,
+        destination: `${source}/page/1`,
+        permanent: true,
+    })
+    redirects.push({
+        source: `${source}/page`,
+        destination: `${source}/page/1`,
+        permanent: true,
+    })
+})
 const nextConfig = {
     basePath: "",
     reactStrictMode: true,
@@ -16,18 +30,7 @@ const nextConfig = {
         ],
     },
     async redirects() {
-        return [
-            {
-                source: "/movies/popular/page",
-                destination: "/movies/popular/page/1",
-                permanent: true,
-            },
-            {
-                source: "/movies/popular",
-                destination: "/movies/popular/page/1",
-                permanent: true,
-            },
-        ]
+        return redirects
     },
 }
 

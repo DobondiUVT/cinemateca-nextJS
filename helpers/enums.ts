@@ -1,3 +1,9 @@
+export enum Criteria {
+    popular = "popular",
+    rated = "rated",
+    playing = "playing",
+    upcoming = "upcoming",
+}
 export enum Genre {
     action = "action",
     adventure = "adventure",
