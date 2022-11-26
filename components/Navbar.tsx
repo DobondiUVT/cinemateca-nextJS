@@ -1,9 +1,10 @@
 "use client"
 
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 const isLoggedIn = false
 let navigation = [
     { name: "Movies", href: "/movies", current: false },
@@ -27,6 +28,9 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    const [search, setSearch] = useState("")
+    const router = useRouter()
+    console.log(router)
     return (
         <Disclosure as="nav" className="bg-slate-800">
             {({ open }) => (
@@ -69,7 +73,9 @@ export default function Navbar() {
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
-                                                    item.current
+                                                    item.name === "SIGN UP"
+                                                        ? "bg-secondary hover:bg-secondary hover:bg-opacity-70"
+                                                        : item.current
                                                         ? "bg-secondary text-white"
                                                         : "text-gray-200 hover:bg-gray-700 hover:text-white",
                                                     "px-3 py-2 rounded-md text-sm font-medium"
@@ -83,6 +89,30 @@ export default function Navbar() {
                                                 {item.name}
                                             </Link>
                                         ))}
+                                        <div>
+                                            <form
+                                                onSubmit={(e) => {
+                                                    e.preventDefault()
+                                                    router.push(
+                                                        `/search/${search}`
+                                                    )
+                                                }}
+                                            >
+                                                <input type="submit" hidden />
+                                                <input
+                                                    id="search-input"
+                                                    type="text"
+                                                    placeholder="Search"
+                                                    className="px-3 py-2 rounded-md bg-gray-100 text-base-100"
+                                                    onChange={(e) =>
+                                                        setSearch(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    value={search}
+                                                />
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

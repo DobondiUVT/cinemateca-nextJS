@@ -1,3 +1,5 @@
+import { Movie } from "./types"
+
 // Helper functions and variables for the API
 const BASE_URL = "https://api.themoviedb.org/3/" 
 const BASE_MOVIE_URL = `${BASE_URL}movie/` 
@@ -58,5 +60,18 @@ export const getMovieCredits = async (id: Number) => {
         []
     )
     const result = await fetcher(url)
+    return result
+}
+export const searchMovie = async (query: String) => {
+    const url = linkCreator(
+        BASE_URL,
+        "search/movie",
+        process.env.TMDB_API_KEY,
+        [`query=${query}`]
+    )
+    const result = await getResults(url)
+    // result.sort((a: Movie, b: Movie) => b.popularity - a.popularity)
+    // sort  by relevance
+    result.sort((a: Movie, b: Movie) => b.vote_count - a.vote_count)
     return result
 }

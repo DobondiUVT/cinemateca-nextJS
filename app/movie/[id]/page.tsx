@@ -1,12 +1,14 @@
 import { CalendarIcon, EyeIcon } from "@heroicons/react/24/outline"
 import { HeartIcon, StarIcon } from "@heroicons/react/24/solid"
+import InfoTabs from "components/Movie/InfoTabs"
 import { getMovie, getMovieCredits, getMovieImage } from "helpers/fetch"
+import { Credits, Movie } from "helpers/types"
 import Image from "next/image"
 
 export default async function Page({ params }) {
     const { id } = params
-    const movieDetails = await getMovie(id)
-    const movieCredits = await getMovieCredits(id)
+    const movieDetails: Movie = await getMovie(id)
+    const movieCredits: Credits = await getMovieCredits(id)
     return (
         <div className="pb-40">
             <div className="relative min-w-full h-[60vh]">
@@ -21,10 +23,10 @@ export default async function Page({ params }) {
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-base-100 z-[1] opacity-50"></div>
             </div>
             <div className="mt-[-160px] relative z-10 container mx-auto">
-                <div className="grid grid-cols-4 gap-10">
+                <div className="grid grid-cols-4 gap-10 items-start">
                     <div className="aspect-[2/3] relative rounded-md border border-gray-600 col-span-1">
                         <Image
-                            className="object-cover object-top z-0"
+                            className="object-cover object-top z-0 rounded-md"
                             src={getMovieImage(movieDetails.poster_path)}
                             fill
                             alt={movieDetails.title}
@@ -46,19 +48,20 @@ export default async function Page({ params }) {
                                 </span>
                             </p>
                         </div>
-                        <p className="max-w-[60ch] text-justify text-gray-200">
+                        <p className="max-w-[65ch] text-gray-200">
                             {movieDetails.overview}
                         </p>
+                        <div className="py-3"></div>
+                        <InfoTabs movieDetails={movieDetails} movieCredits={movieCredits}/>
                     </div>
-                    <div className="col-span-1 bg-slate-500 rounded-lg bg-opacity-50 p-6 xl:p-10 text-center flex flex-col items-center justify-start gap-4">
+                    <div className="col-span-1 bg-slate-500 rounded-lg bg-opacity-40 p-6 xl:p-10 text-center flex flex-col items-center justify-start gap-4">
                         <div>
                             <p className="text-2xl font-bold text-gray-200 flex items-center gap-1">
                                 {Array.from(
                                     {
-                                        length:
-                                            Math.round(
-                                                movieDetails.vote_average / 2
-                                            ) ,
+                                        length: Math.round(
+                                            movieDetails.vote_average / 2
+                                        ),
                                     },
                                     (_, i) => (
                                         <StarIcon

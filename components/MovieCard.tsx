@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import Hero from "assets/img/hero.jpg"
 export default function MovieCard({ movie }) {
+
     return (
         <Link
             href={`/movie/${movie.id}`}
@@ -22,7 +22,12 @@ export default function MovieCard({ movie }) {
                             (max-width: 1200px) 25vw"
                         />
                     ) : (
-                        <span>Poster not found</span>
+                        <Image 
+                            src="/card-holder.png"
+                            fill
+                            className="rounded-md object-cover"
+                            alt="Placeholder for movie poster"
+                        />
                     )}
                 </div>
             </div>

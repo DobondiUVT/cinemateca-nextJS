@@ -1,29 +1,64 @@
 export type Genre = {
-    id: Number,
-    name: String
+    id: number,
+    name: string
 };
 
 export type Movie = {
-    adult: Boolean,
-    backdrop_path: String,
+    adult: boolean,
+    backdrop_path: string,
     belongs_to_collection: null | Object,
-    budget: Number,
+    budget: number,
     genres: Array<Genre>,
-    homepage: String | null,
-    id: Number,
-    imdb_id: String | null,
-    original_language: String,
-    original_title: String,
-    overview: String | null,
-    popularity: Number,
-    poster_path: String | null,
-    release_date: String,
-    revenue: Number,
-    runtime: Number | null,
-    status: String,
-    tagline: String | null,
-    title: String,
-    video: Boolean,
-    vote_average: Number,
-    vote_count: Number
+    homepage: string | null,
+    id: number,
+    imdb_id: string | null,
+    original_language: string,
+    original_title: string,
+    overview: string | null,
+    popularity: number,
+    poster_path: string | null,
+    release_date: string,
+    revenue: number,
+    runtime: number | null,
+    status: string,
+    tagline: string | null,
+    title: string,
+    video: boolean,
+    vote_average: number,
+    vote_count: number
+}
+
+export type Cast = {
+    adult: boolean,
+    gender: number | null,
+    id: number,
+    known_for_department: string,
+    name: string,
+    original_name: string,
+    popularity: number,
+    profile_path: string | null,
+    cast_id: number,
+    character: string,
+    credit_id: string,
+    order: number
+}
+
+export type Crew = {
+    adult: boolean,
+    gender: number | null,
+    id: number,
+    known_for_department: string,
+    name: string,
+    original_name: string,
+    popularity: number,
+    profile_path: string | null,
+    credit_id: string,
+    department: string,
+    job: string
+}
+
+export type Credits = {
+    id: number,
+    cast: Array<Cast>,
+    crew: Array<Crew>
 }

@@ -39,3 +39,14 @@ h4, .h4 {
 .container {
     @apply px-4;
 }
+
+/* create custom scrollbar */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+    background: #1a202c;
+}
+::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
