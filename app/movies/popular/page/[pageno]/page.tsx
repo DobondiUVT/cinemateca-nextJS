@@ -6,11 +6,11 @@ import { getMostPopularMovies } from "helpers/fetch"
 export default async function Page({ params }) {
     let { pageno } = params
     pageno = parseInt(pageno)
-    const data = await getMostPopularMovies(18, pageno)
+    const data = await getMostPopularMovies(20, pageno)
     return (
         <div>
             <PopularMovies data={data} />
-            <Pagination page={pageno} last={pageno === 10 ? true : false} />
+            <Pagination path="/movies/popular" page={pageno} last={pageno === 10 ? true : false} />
         </div>
     )
 }
