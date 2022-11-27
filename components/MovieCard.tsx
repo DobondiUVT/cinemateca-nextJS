@@ -6,7 +6,7 @@ export default function MovieCard({ movie }) {
         <Link
             href={`/movie/${movie.id}`}
             className="rounded-md border border-gray-600 transition-colors hover:border-2 hover:border-secondary aspect-[2/3] max-h-[380px] bg-gray-800 tooltip tooltip-primary"
-            data-tip={`${movie.title} (${movie.release_date.slice(0, 4)}) ${
+            data-tip={`${movie.title} (${movie.release_date?.slice(0, 4)}) ${
                 movie.vote_average ? movie.vote_average + "/10" : ""
             }`}
         >

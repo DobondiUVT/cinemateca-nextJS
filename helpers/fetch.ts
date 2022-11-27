@@ -69,9 +69,7 @@ export const searchMovie = async (query: String) => {
         process.env.TMDB_API_KEY,
         [`query=${query}`]
     )
+    console.log(url)
     const result = await getResults(url)
-    // result.sort((a: Movie, b: Movie) => b.popularity - a.popularity)
-    // sort  by relevance
-    result.sort((a: Movie, b: Movie) => b.vote_count - a.vote_count)
     return result
 }

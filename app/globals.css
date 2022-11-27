@@ -50,3 +50,7 @@ h4, .h4 {
 ::-webkit-scrollbar-thumb {
     background: #4a5568;
 }
+
+.half-star {
+    color: linear-gradient(to right, #bada55 0%, #bada55 50%,rgba(255,255,255,1) 51%,rgba(255,255,255,1) 100%);
+}

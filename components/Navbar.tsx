@@ -27,6 +27,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ")
 }
 
+function convertSearchString(item) {
+    return item.replace(/ /g, "-")
+}
+
 export default function Navbar() {
     const [search, setSearch] = useState("")
     const router = useRouter()
@@ -39,7 +43,9 @@ export default function Navbar() {
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault()
-                                    router.push(`/search/${search}`)
+                                    router.push(
+                                        `/search/${convertSearchString(search)}`
+                                    )
                                 }}
                             >
                                 <input type="submit" hidden />
@@ -111,7 +117,7 @@ export default function Navbar() {
                                                 onSubmit={(e) => {
                                                     e.preventDefault()
                                                     router.push(
-                                                        `/search/${search}`
+                                                        `/search/${convertSearchString(search)}`
                                                     )
                                                 }}
                                             >
