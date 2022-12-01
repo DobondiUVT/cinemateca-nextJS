@@ -32,6 +32,12 @@ const nextConfig = {
                 port: "",
                 pathname: "/t/p/**",
             },
+            {
+                protocol: "https",
+                hostname: "i.pravatar.cc",
+                port: "",
+                pathname: "/**",
+            },
         ],
     },
     async redirects() {
