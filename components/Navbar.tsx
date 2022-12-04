@@ -1,27 +1,28 @@
 "use client"
 
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-const isLoggedIn = false
-let navigation = [
+import supabase from "helpers/supabase"
+import Image from "next/image"
+let defaultNavigation = [
     { name: "Movies", href: "/movies", current: false },
     { name: "Lists", href: "/lists", current: false },
 ]
-if (isLoggedIn) {
-    navigation = [
-        ...navigation,
-        { name: "Network", href: "/network", current: false },
-        { name: "Diary", href: "/diary", current: false },
-    ]
-} else {
-    navigation = [
-        ...navigation,
-        { name: "SIGN UP", href: "/auth", current: false },
-    ]
-}
+
+let loggedInNavigation = [
+    ...defaultNavigation,
+    { name: "Network", href: "/network", current: false },
+    { name: "Diary", href: "/diary", current: false },
+]
+
+let loggedOutNavigation = [
+    ...defaultNavigation,
+    { name: "SIGN UP", href: "/signup", current: false },
+    { name: "LOG IN", href: "/login", current: false },
+]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ")
@@ -33,7 +34,37 @@ function convertSearchString(item) {
 
 export default function Navbar() {
     const [search, setSearch] = useState("")
+    const [profile, setProfile] = useState(null)
+    const [navigation, setNavigation] = useState(loggedOutNavigation)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [loading, setLoading] = useState(true)
     const router = useRouter()
+    let logout = async () => {
+        const { error } = await supabase.auth.signOut()
+        if (error) {
+            console.log({ error })
+        } else {
+            window.location.href = "/"
+        }
+    }
+    useEffect(() => {
+        const checkAuth = async () => {
+            const {
+                data: { user },
+            } = await supabase.auth.getUser()
+            setIsLoggedIn(user ? true : false)
+            setNavigation(user ? loggedInNavigation : loggedOutNavigation)
+            setLoading(false)
+        }
+        checkAuth()
+        const getAvatar = async () => {
+            let { data: profiles, error } = await supabase
+                .from("profiles")
+                .select("username, avatar_url")
+            setProfile(profiles[0])
+        }
+        getAvatar()
+    }, [isLoggedIn, navigation])
     return (
         <Disclosure as="nav" className="bg-slate-800">
             {({ open }) => (
@@ -82,9 +113,11 @@ export default function Navbar() {
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex sm:flex-1 flex-shrink-0 items-center">
                                     <Link href="/">
-                                        <img
+                                        <Image
                                             className="block h-8 w-auto"
                                             src="/Logo.svg"
+                                            width={32}
+                                            height={32}
                                             alt="Your Company"
                                         />
                                     </Link>
@@ -117,7 +150,9 @@ export default function Navbar() {
                                                 onSubmit={(e) => {
                                                     e.preventDefault()
                                                     router.push(
-                                                        `/search/${convertSearchString(search)}`
+                                                        `/search/${convertSearchString(
+                                                            search
+                                                        )}`
                                                     )
                                                 }}
                                             >
@@ -148,11 +183,17 @@ export default function Navbar() {
                                                 <span className="sr-only">
                                                     Open user menu
                                                 </span>
-                                                <img
-                                                    className="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
-                                                />
+                                                {profile?.avatar_url ? (
+                                                    <Image
+                                                        className="h-8 w-8 rounded-full"
+                                                        src={profile.avatar_url}
+                                                        width={32}
+                                                        height={32}
+                                                        alt=""
+                                                    />
+                                                ) : (
+                                                    <div className="h-8 w-8 rounded-full border"></div>
+                                                )}
                                             </Menu.Button>
                                         </div>
                                         <Transition
@@ -176,7 +217,15 @@ export default function Navbar() {
                                                                 "block px-4 py-2 text-sm text-gray-700"
                                                             )}
                                                         >
-                                                            Your Profile
+                                                            {profile?.username ? (
+                                                                <>
+                                                                    {
+                                                                        profile.username
+                                                                    }
+                                                                </>
+                                                            ) : (
+                                                                <>My profile</>
+                                                            )}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -199,6 +248,7 @@ export default function Navbar() {
                                                     {({ active }) => (
                                                         <a
                                                             href="#"
+                                                            onClick={logout}
                                                             className={classNames(
                                                                 active
                                                                     ? "bg-gray-100"

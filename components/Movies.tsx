@@ -1,6 +1,6 @@
 import MoviesList from "./MoviesList"
 
-export default function Movies({ data, title }) {
+export default function Movies({ data, title = "" }) {
     return (
         <section className="container mx-auto py-6">
             <h1 className="text-3xl pt-4 pb-10 ">{title}</h1>

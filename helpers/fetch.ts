@@ -73,3 +73,12 @@ export const searchMovie = async (query: String) => {
     const result = await getResults(url)
     return result
 }
+export const getListOfMoviesFromIds = async (ids: Array<Number>) => {
+    let movies = []
+    for (let i = 0; i < ids.length; i++) {
+        const movie = await getMovie(ids[i])
+        if(movie.success != false)
+            movies.push(movie)
+    }
+    return movies
+}
