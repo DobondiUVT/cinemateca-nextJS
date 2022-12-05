@@ -1,6 +1,10 @@
 import Link from "next/link"
-
-export default function Breadcrumbs({ links }) {
+type Link = {
+    title: string
+    link: string
+}
+type Links = Link[]
+export default function Breadcrumbs({ links: links }: { links: Links }) {
     return (
         <div className="container mx-auto pt-4">
             <div className="text-sm breadcrumbs">

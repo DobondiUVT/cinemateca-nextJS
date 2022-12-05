@@ -14,7 +14,7 @@ export default function MovieThumbnails({ movies }) {
                 <div
                     key={index}
                     className={classNames(
-                        "relative aspect-[2/3] border border-gray-600 rounded-md h-[160px]",
+                        "relative aspect-[2/3] border border-gray-600 rounded-md h-[120px] md:h-[160px]",
                         index > 0 ? "ml-[-40px]" : ""
                     )}
                     style={{ zIndex: movies.length - index }}

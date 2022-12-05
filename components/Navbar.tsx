@@ -20,8 +20,8 @@ let loggedInNavigation = [
 
 let loggedOutNavigation = [
     ...defaultNavigation,
-    { name: "SIGN UP", href: "/signup", current: false },
     { name: "LOG IN", href: "/login", current: false },
+    { name: "SIGN UP", href: "/signup", current: false },
 ]
 
 function classNames(...classes) {
@@ -38,6 +38,7 @@ export default function Navbar() {
     const [navigation, setNavigation] = useState(loggedOutNavigation)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [userId, setUserId] = useState(null)
     const router = useRouter()
     let logout = async () => {
         const { error } = await supabase.auth.signOut()
@@ -52,6 +53,7 @@ export default function Navbar() {
             const {
                 data: { user },
             } = await supabase.auth.getUser()
+            setUserId(user?.id || null)
             setIsLoggedIn(user ? true : false)
             setNavigation(user ? loggedInNavigation : loggedOutNavigation)
             setLoading(false)
@@ -61,10 +63,11 @@ export default function Navbar() {
             let { data: profiles, error } = await supabase
                 .from("profiles")
                 .select("username, avatar_url")
-            setProfile(profiles[0])
+                .eq("id", userId)
+            setProfile(profiles ? profiles[0] : null)
         }
         getAvatar()
-    }, [isLoggedIn, navigation])
+    }, [isLoggedIn, navigation, userId])
     return (
         <Disclosure as="nav" className="bg-slate-800">
             {({ open }) => (

@@ -21,7 +21,7 @@ sources.forEach((source) => {
 const nextConfig = {
     basePath: "",
     reactStrictMode: true,
-    experimental: { appDir: true },
+    experimental: { appDir: true, esmExternals: false },
     // define a remote pattern for TMDB
     images: {
         formats: ["image/avif", "image/webp"],
