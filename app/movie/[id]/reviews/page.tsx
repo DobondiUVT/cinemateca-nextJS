@@ -30,7 +30,7 @@ export default async function Page({ params }) {
             <Breadcrumbs links={links} />
             <div className="container mx-auto pt-5">
                 <h1 className="text-6xl pb-6">{movie.title} reviews</h1>
-                <div className="grid grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     {reviews.map((review) => (
                         <Review
                             key={review.id}

@@ -37,7 +37,7 @@ export default function InfoTabs({ movieDetails, movieCredits }) {
                     Details
                 </a>
             </div>
-            <div id="cast-tab" className={!tabs[0] && "hidden"}>
+            <div id="cast-tab" className={!tabs[0] ? "hidden" : ""}>
                 <div className="flex gap-2 flex-wrap py-4">
                     {movieCredits.cast && movieCredits.cast.slice(0,20).map((cast, index) => (
                         <div className="bg-gray-800 p-2 text-sm rounded-md hover:bg-secondary transition-colors cursor-pointer" key={`cast-${index}`}>

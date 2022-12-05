@@ -18,7 +18,7 @@ export default function MovieReviews({ movieId }) {
                         See more reviews
                     </Link>
                 </div>
-                <div className="grid grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     {reviews.map((review) => (
                         <Review
                             key={review.id}
