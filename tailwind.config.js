@@ -4,7 +4,11 @@ module.exports = {
         "./app/**/*.{js,ts,jsx,tsx,css}",
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
-    plugins: [require("@tailwindcss/typography"), require("daisyui")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        require("@tailwindcss/forms"),
+        require("daisyui"),
+    ],
     daisyui: {
         themes: [
             {
@@ -24,5 +28,5 @@ module.exports = {
                 },
             },
         ],
-    }
+    },
 }

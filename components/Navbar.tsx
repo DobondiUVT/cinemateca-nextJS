@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import supabase from "helpers/supabase"
 import Image from "next/image"
+import { getProfileData } from "helpers/database"
 let defaultNavigation = [
     { name: "Movies", href: "/movies", current: false },
     { name: "Lists", href: "/lists", current: false },
@@ -15,7 +16,7 @@ let defaultNavigation = [
 let loggedInNavigation = [
     ...defaultNavigation,
     { name: "Network", href: "/network", current: false },
-    { name: "Diary", href: "/diary", current: false },
+    { name: "History", href: "/history", current: false },
 ]
 
 let loggedOutNavigation = [
@@ -36,9 +37,6 @@ export default function Navbar() {
     const [search, setSearch] = useState("")
     const [profile, setProfile] = useState(null)
     const [navigation, setNavigation] = useState(loggedOutNavigation)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [loading, setLoading] = useState(true)
-    const [userId, setUserId] = useState(null)
     const router = useRouter()
     let logout = async () => {
         const { error } = await supabase.auth.signOut()
@@ -50,24 +48,12 @@ export default function Navbar() {
     }
     useEffect(() => {
         const checkAuth = async () => {
-            const {
-                data: { user },
-            } = await supabase.auth.getUser()
-            setUserId(user?.id || null)
-            setIsLoggedIn(user ? true : false)
-            setNavigation(user ? loggedInNavigation : loggedOutNavigation)
-            setLoading(false)
+            const profile = await getProfileData()
+            setNavigation(profile ? loggedInNavigation : loggedOutNavigation)
+            setProfile(profile ? profile : null)
         }
         checkAuth()
-        const getAvatar = async () => {
-            let { data: profiles, error } = await supabase
-                .from("profiles")
-                .select("username, avatar_url")
-                .eq("id", userId)
-            setProfile(profiles ? profiles[0] : null)
-        }
-        getAvatar()
-    }, [isLoggedIn, navigation, userId])
+    }, [])
     return (
         <Disclosure as="nav" className="bg-slate-800">
             {({ open }) => (
@@ -177,7 +163,7 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             </div>
-                            {isLoggedIn && (
+                            {profile && (
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
@@ -211,8 +197,8 @@ export default function Navbar() {
                                             <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a
-                                                            href="#"
+                                                        <Link
+                                                            href="/profile"
                                                             className={classNames(
                                                                 active
                                                                     ? "bg-gray-100"
@@ -229,22 +215,7 @@ export default function Navbar() {
                                                             ) : (
                                                                 <>My profile</>
                                                             )}
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href="#"
-                                                            className={classNames(
-                                                                active
-                                                                    ? "bg-gray-100"
-                                                                    : "",
-                                                                "block px-4 py-2 text-sm text-gray-700"
-                                                            )}
-                                                        >
-                                                            Settings
-                                                        </a>
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>

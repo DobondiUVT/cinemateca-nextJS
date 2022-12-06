@@ -1,5 +1,5 @@
 import MovieHeader from "components/Movie/MovieHeader"
-import { Credits, Movie } from "helpers/types"
+import { Credits, Movie } from "types/types"
 import { getMovie, getMovieCredits } from "helpers/fetch"
 import MovieReviews from "components/Movie/MovieReviews"
 
@@ -14,7 +14,7 @@ export default async function Page({ params }) {
                 movieDetails={movieDetails}
                 movieCredits={movieCredits}
             />
-            <MovieReviews movieId={id}/>
+            <MovieReviews movieId={id} />
         </div>
     )
 }

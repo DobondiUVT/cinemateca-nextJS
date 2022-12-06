@@ -1,4 +1,4 @@
-import { Movie } from "./types"
+import { Movie } from "../types/types"
 
 // Helper functions and variables for the API
 const BASE_URL = "https://api.themoviedb.org/3/" 
@@ -32,7 +32,7 @@ export const getCriteriaMovies = async (
     const url = linkCreator(
         BASE_MOVIE_URL,
         criteria,
-        process.env.TMDB_API_KEY,
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
         [`language=${language}`, `page=${page}`]
     )
 
@@ -43,7 +43,7 @@ export const getMovie = async (id: Number) => {
     const url = linkCreator(
         BASE_MOVIE_URL,
         id.toString(),
-        process.env.TMDB_API_KEY,
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
         []
     )
     const result = await fetcher(url)
@@ -56,7 +56,7 @@ export const getMovieCredits = async (id: Number) => {
     const url = linkCreator(
         BASE_MOVIE_URL,
         `${id}/credits`,
-        process.env.TMDB_API_KEY,
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
         []
     )
     const result = await fetcher(url)
@@ -66,7 +66,7 @@ export const searchMovie = async (query: String) => {
     const url = linkCreator(
         BASE_URL,
         "search/movie",
-        process.env.TMDB_API_KEY,
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
         [`query=${query}`]
     )
     console.log(url)
@@ -75,10 +75,12 @@ export const searchMovie = async (query: String) => {
 }
 export const getListOfMoviesFromIds = async (ids: Array<Number>) => {
     let movies = []
-    for (let i = 0; i < ids.length; i++) {
-        const movie = await getMovie(ids[i])
-        if(movie.success != false)
-            movies.push(movie)
+    if (ids) {
+        for (let i = 0; i < ids.length; i++) {
+            const movie = await getMovie(ids[i])
+            if(movie.success != false)
+                movies.push(movie)
+        }
     }
     return movies
 }
