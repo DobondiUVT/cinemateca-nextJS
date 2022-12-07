@@ -106,7 +106,7 @@ export async function getNumberOfMoviesWatched(id = "") {
     if (error) {
         console.log(error)
     }
-    return data.watched.length
+    return data.watched ? data.watched.length : 0
 }
 export async function getWatchedMovies(id = "") {
     if (!id) {

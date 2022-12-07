@@ -31,25 +31,25 @@ export default function Page() {
                 <div className="container mx-auto pt-5">
                     <div className="flex gap-4 items-center mb-6">
                         <div className="rounded-full">
-                            <Image
-                                src={profile.avatar_url}
-                                alt="avatar"
-                                width={64}
-                                height={64}
-                                className="rounded-full"
-                            />
+                            {profile?.avatar_url && (
+                                <Image
+                                    src={profile?.avatar_url}
+                                    alt="avatar"
+                                    width={64}
+                                    height={64}
+                                    className="rounded-full"
+                                />
+                            )}
                         </div>
                         <div>
                             <h1 className="text-3xl font-bold">
-                                {profile.username}
+                                {profile?.username}
                             </h1>
-                            {numberOfMoviesWatched && (
-                                <div className="badge badge-secondary font-bold">{`${numberOfMoviesWatched} ${
-                                    numberOfMoviesWatched > 1
-                                        ? "movies"
-                                        : "movie"
-                                } seen`}</div>
-                            )}
+                            <div className="badge badge-secondary font-bold">{`${numberOfMoviesWatched ?? 0} ${
+                                numberOfMoviesWatched > 1 || numberOfMoviesWatched == 0
+                                    ? "movies"
+                                    : "movie"
+                            } seen`}</div>
                         </div>
                     </div>
                     <div className="tabs p-6 bg-gray-400 bg-opacity-20 rounded-md">
@@ -85,13 +85,13 @@ export default function Page() {
                         </a>
                     </div>
                     <div className={!tabs[0] ? "hidden" : ""}>
-                        <ProfileTab profile={profile} />
+                        {profile && <ProfileTab profile={profile} />}
                     </div>
                     <div className={!tabs[1] ? "hidden" : ""}>
-                        <MoviesTab profile={profile} />
+                        {profile && <MoviesTab profile={profile} />}
                     </div>
                     <div className={!tabs[2] ? "hidden" : ""}>
-                        <ListsTab profile={profile} />
+                        {profile && <ListsTab profile={profile} />}
                     </div>
                 </div>
             </section>

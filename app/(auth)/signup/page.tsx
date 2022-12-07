@@ -9,25 +9,37 @@ import { Dialog, Transition } from "@headlessui/react"
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [isOpen, setIsOpen] = useState(false)
+    const [username, setUsername] = useState("")
+    const getRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min) + min)
+    }
     const handleEmailSignup = async (email, password) => {
         let { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
         })
+        let signupData = data || null
         if (error) {
             console.log({ error })
         } else {
-            openModal()
+            let { data, error } = await supabase
+                .from("profiles")
+                .update({
+                    username: username,
+                    avatar_url: `https://i.pravatar.cc/150?img=${getRandomNumber(
+                        1,
+                        70
+                    )}`,
+                })
+                .eq("id", signupData?.user?.id)
+            if (error) {
+                console.log({ error })
+            } else {
+                window.location.href = "/"
+            }
         }
     }
-    function closeModal() {
-        setIsOpen(false)
-    }
 
-    function openModal() {
-        setIsOpen(true)
-    }
     return (
         <div className="container mx-auto">
             <div className="flex min-h-full items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
@@ -61,6 +73,23 @@ export default function Login() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="username" className="sr-only">
+                                    Username
+                                </label>
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    required
+                                    value={username}
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
+                                    className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="Username"
                                 />
                             </div>
                             <div>
@@ -98,62 +127,6 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-            <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={closeModal}>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="fixed inset-0 bg-black bg-opacity-25" />
-                    </Transition.Child>
-
-                    <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 scale-95"
-                                enterTo="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 scale-100"
-                                leaveTo="opacity-0 scale-95"
-                            >
-                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                    <Dialog.Title
-                                        as="h3"
-                                        className="text-lg font-medium leading-6 text-gray-900"
-                                    >
-                                        Sign up completed!
-                                    </Dialog.Title>
-                                    <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
-                                            We have sent an email your way.
-                                            Please check your inbox and click
-                                            the link to confirm your account
-                                            then you can login.
-                                        </p>
-                                    </div>
-
-                                    <div className="mt-4">
-                                        <button
-                                            type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            onClick={closeModal}
-                                        >
-                                            Got it, thanks!
-                                        </button>
-                                    </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </Dialog>
-            </Transition>
         </div>
     )
 }
