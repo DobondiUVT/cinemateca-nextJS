@@ -124,3 +124,45 @@ export async function getWatchedMovies(id = "") {
     }
     return await getListOfMoviesFromIds(data?.watched)
 }
+export type ReviewType = {
+    id: number,
+    user: {
+        id: number,
+        username: string,
+        avatar: string,
+    },
+    text: string,
+    likes: number[],
+    dislikes: number[],
+    created_at: string,
+    rating: number,
+    movie_id: string
+}
+export async function getReviews(movie_id, limit = 10000) {
+    
+    const { data: db_reviews } = await supabase
+        .from("reviews")
+        .select("*")
+        .eq("movie_id", movie_id)
+        .order("created_at", { ascending: false })
+        .limit(limit)
+    let reviews: ReviewType[] = []
+    const user = await getProfileData()
+    for (const review of db_reviews) {
+        reviews.push({
+            id: review.id,
+            user: {
+                id: review.user_id,
+                username: user.username,
+                avatar: user.avatar_url,
+            },
+            text: review.text,
+            likes: review.likes,
+            dislikes: review.dislikes,
+            created_at: review.created_at,
+            rating: review.rating,
+            movie_id: review.movie_id,
+        })
+    }
+    return reviews as ReviewType[]
+}
