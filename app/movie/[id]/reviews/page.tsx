@@ -9,7 +9,6 @@ export default function Page({ params }) {
     const { id } = params
     let [movie, setMovie] = useState(null)
     let [reviews, setReviews] = useState([])
-    let [currentUser, setCurrentUser] = useState(null)
     let [links, setLinks] = useState([])
     let [sorting, setSorting] = useState("sort-new")
 
@@ -19,8 +18,6 @@ export default function Page({ params }) {
             setMovie(movie)
             const reviews = await getReviews(id)
             setReviews(reviews)
-            const user = await getProfileData()
-            setCurrentUser(user? user : null)
             let reviewsObject: ReviewType[] = []
             reviews.forEach(async (review) => {
                 let user = await getProfileDataById(review.user.id)

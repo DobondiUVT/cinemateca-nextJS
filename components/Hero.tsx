@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import hero from "../assets/img/hero.jpg"
 export default function Hero() {
     return (
@@ -15,8 +16,7 @@ export default function Hero() {
                                     Find masterpieces. Judge honestly. Share opinions.
                                 </p>
                                 <div className="flex flex-wrap gap-4">
-                                    <button className="shadow btn btn-primary text-neutral ">Start browsing</button>
-                                    <button className="shadow btn btn-outline btn-secondary ">HOW DOES IT WORK</button>
+                                    <Link href="/movies"><button className="shadow btn btn-primary text-neutral ">Start browsing</button></Link>
                                 </div>
                             </div>
                         </div>

@@ -118,14 +118,14 @@ export default function MovieReviews({ movieId }) {
                             <option value="sort-disliked">Disliked</option>
                         </select>
                     </div>
-                    {reviews.length ? (
+                    {/* {reviews.length ? (
                         <Link
                             className="hover:text-secondary hover:underline"
                             href={`/movie/${movieId}/reviews`}
                         >
                             See more reviews
                         </Link>
-                    ) : null}
+                    ) : null} */}
                 </div>
                 {/* create a text input for writing a review */}
                 {user && (
