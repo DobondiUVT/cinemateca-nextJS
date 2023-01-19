@@ -17,6 +17,18 @@ export async function getProfileData() {
         .single()
     return profile as Profile
 }
+export async function getProfileDataById(id) {
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", id)
+        .single()
+    return profile as Profile
+}
+export async function getAllProfileData() {
+    const { data: profiles } = await supabase.from("profiles").select("*")
+    return profiles as Profile[]
+}
 export async function checkIfFavorite(movieId) {
     const profile = await getProfileData()
     const favorites = profile?.fav_movies
@@ -106,7 +118,7 @@ export async function getNumberOfMoviesWatched(id = "") {
     if (error) {
         console.log(error)
     }
-    return data.watched ? data.watched.length : 0
+    return data?.watched ? data?.watched.length : 0
 }
 export async function getWatchedMovies(id = "") {
     if (!id) {
@@ -127,7 +139,7 @@ export async function getWatchedMovies(id = "") {
 export type ReviewType = {
     id: number,
     user: {
-        id: number,
+        id: string,
         username: string,
         avatar: string,
     },
@@ -147,12 +159,12 @@ export async function getReviews(movie_id, limit = 10000) {
         .order("created_at", { ascending: false })
         .limit(limit)
     let reviews: ReviewType[] = []
-    const user = await getProfileData()
     for (const review of db_reviews) {
+        let user = await getProfileDataById(review.user_id)
         reviews.push({
             id: review.id,
             user: {
-                id: review.user_id,
+                id: user.id,
                 username: user.username,
                 avatar: user.avatar_url,
             },

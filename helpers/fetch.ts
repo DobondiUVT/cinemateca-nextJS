@@ -3,7 +3,32 @@ import { Movie } from "../types/types"
 // Helper functions and variables for the API
 const BASE_URL = "https://api.themoviedb.org/3/" 
 const BASE_MOVIE_URL = `${BASE_URL}movie/` 
-
+const DISCOVER_MOVIE = `${BASE_URL}/`
+const genreToID = {
+    "action": 28,
+    "adventure": 12,
+    "animation": 16,
+    "comedy": 35,
+    "crime": 80,
+    "documentary": 99,
+    "drama": 18,
+    "family": 10751,
+    "fantasy": 14,
+    "history": 36,
+    "horror": 27,
+    "music": 10402,
+    "mystery": 9648,
+}
+const decadeToYears = {
+    "2020s": [2020, 2021],
+    "2010s": [2010, 2019],
+    "2000s": [2000, 2009],
+    "1990s": [1990, 1999],
+    "1980s": [1980, 1989],
+    "1970s": [1970, 1979],
+    "1960s": [1960, 1969],
+    "1950s": [1950, 1959],
+}
 const linkCreator = (
     base: String,
     criteria: String,
@@ -36,6 +61,37 @@ export const getCriteriaMovies = async (
         [`language=${language}`, `page=${page}`]
     )
 
+    const results = await getResults(url)
+    return results.slice(0, maximum)
+}
+export const getGenreMovies = async (
+    maximum: Number = 10,
+    page: Number = 1,
+    language: String = "en-US",
+    genre: string = "action"
+) => {
+    const url = linkCreator(
+        DISCOVER_MOVIE,
+        "discover/movie",
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
+        [`language=${language}`, `page=${page}`, `with_genres=${genreToID[genre]}`]
+    )
+    console.log(url)
+    const results = await getResults(url)
+    return results.slice(0, maximum)
+}
+export const getYearMovies = async (
+    maximum: Number = 10,
+    page: Number = 1,
+    language: String = "en-US",
+    year: string = "2020s"
+) => {
+    const url = linkCreator(
+        DISCOVER_MOVIE,
+        "discover/movie",
+        process.env.NEXT_PUBLIC_TMDB_API_KEY,
+        [`language=${language}`, `page=${page}`, `primary_release_date.gte=${decadeToYears[year][0]}-01-01`, `primary_release_date.lte=${decadeToYears[year][1]}-12-31`]
+    )
     const results = await getResults(url)
     return results.slice(0, maximum)
 }

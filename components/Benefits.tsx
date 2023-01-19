@@ -10,7 +10,7 @@ export default function Benefits() {
                 <div className="flex flex-col md:flex-row items-stretch flex-wrap gap-6">
                     {benefits.map((benefit) => (
                         <a
-                            href=""
+                            href="/movies"
                             key={`benefit-${benefit.title}`}
                             className="flex flex-1 group"
                         >

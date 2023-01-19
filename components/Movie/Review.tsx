@@ -69,7 +69,7 @@ export default function Review({ user, review }) {
     useEffect(() => {
         const getUser = async () => {
             const user = await getProfileData()
-            setCurrentUser(user.id)
+            setCurrentUser(user ? user.id : null)
         }
         getUser()
         checkIfAlreadyVoted()

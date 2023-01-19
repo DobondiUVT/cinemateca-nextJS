@@ -4,6 +4,19 @@ const sources = [
     "/movies/upcoming",
     "/movies/top_rated",
     "/movies/now_playing",
+    "/movies/genre/action",
+    "/movies/genre/adventure",
+    "/movies/genre/animation",
+    "/movies/genre/comedy",
+    "/movies/genre/documentary",
+    "/movies/genre/drama",
+    "/movies/genre/horror",
+    "/movies/decade/2020s",
+    "/movies/decade/2010s",
+    "/movies/decade/2000s",
+    "/movies/decade/1990s",
+    "/movies/decade/1980s",
+    "/movies/decade/1970s"
 ]
 let redirects = []
 sources.forEach((source) => {

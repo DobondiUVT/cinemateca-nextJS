@@ -12,7 +12,7 @@ export default function Breadcrumbs({ links }) {
                                     {link.title}
                                 </Link>
                             ) : (
-                                <span className="font-bold underline">{link.title}</span>
+                                <span className="font-bold underline capitalize">{link.title}</span>
                             )}
                         </li>
                     ))}

@@ -1,7 +1,7 @@
 "use client"
 import Breadcrumbs from "components/Breadcrumbs"
 import Review from "components/Movie/Review"
-import { getProfileData, getReviews, ReviewType } from "helpers/database"
+import { getProfileData, getProfileDataById, getReviews, ReviewType } from "helpers/database"
 import { getMovie } from "helpers/fetch"
 import { useEffect, useState } from "react"
 
@@ -9,7 +9,7 @@ export default function Page({ params }) {
     const { id } = params
     let [movie, setMovie] = useState(null)
     let [reviews, setReviews] = useState([])
-    let [user, setUser] = useState(null)
+    let [currentUser, setCurrentUser] = useState(null)
     let [links, setLinks] = useState([])
     let [sorting, setSorting] = useState("sort-new")
 
@@ -20,13 +20,14 @@ export default function Page({ params }) {
             const reviews = await getReviews(id)
             setReviews(reviews)
             const user = await getProfileData()
-            setUser(user)
+            setCurrentUser(user? user : null)
             let reviewsObject: ReviewType[] = []
-            reviews.forEach((review) => {
+            reviews.forEach(async (review) => {
+                let user = await getProfileDataById(review.user.id)
                 let reviewObject: ReviewType = {
                     id: review.id,
                     user: {
-                        id: parseInt(user.id),
+                        id: user.id,
                         username: user.username,
                         avatar: user.avatar_url,
                     },

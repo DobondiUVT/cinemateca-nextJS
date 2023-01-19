@@ -1,6 +1,6 @@
 "use client"
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline"
-import {EyeIcon as EyeIconSolid} from "@heroicons/react/24/solid"
+import { EyeIcon as EyeIconSolid } from "@heroicons/react/24/solid"
 import {
     BookmarkIcon,
     CheckBadgeIcon,
@@ -13,6 +13,7 @@ import {
     addToWatched,
     checkIfFavorite,
     checkIfWatched,
+    getProfileData,
     removeFromFavorites,
     removeFromWatched,
 } from "helpers/database"
@@ -20,6 +21,7 @@ import { useEffect, useState } from "react"
 export default function ActionCard({ movieDetails }) {
     const [isFav, setIsFav] = useState(false)
     const [isWatched, setIsWatched] = useState(false)
+    const [user, setUser] = useState(null)
     const getRatingColor = (rating) => {
         if (rating >= 80) {
             return "bg-green-500"
@@ -39,7 +41,12 @@ export default function ActionCard({ movieDetails }) {
             const isWatched = await checkIfWatched(movieDetails.id)
             setIsWatched(isWatched)
         }
+        async function getUser() {
+            const user = await getProfileData()
+            setUser(user ? user : null)
+        }
         setWatched()
+        getUser()
     }, [movieDetails.id])
 
     return (
@@ -71,14 +78,15 @@ export default function ActionCard({ movieDetails }) {
                 >
                     {isWatched ? (
                         <>
-                        <EyeIconSolid
-                            className="group-hover:text-error text-secondary"
-                            width="36"
-                            height="36"
-                        />
-                        <span className="flex items-center gap-2 group-hover:text-error">Watched</span>
+                            <EyeIconSolid
+                                className="group-hover:text-error text-secondary"
+                                width="36"
+                                height="36"
+                            />
+                            <span className="flex items-center gap-2 group-hover:text-error">
+                                Watched
+                            </span>
                         </>
-
                     ) : (
                         <>
                             <EyeIcon
@@ -133,22 +141,22 @@ export default function ActionCard({ movieDetails }) {
             )}
 
             <div className="h-[1px] bg-white w-full">&nbsp;</div>
-            <a
-                href="#"
-                onClick={(e) => {
-                    e.preventDefault()
-                }}
-                className="text-md font-bold flex items-center gap-2 group "
-            >
-                <span className="group-hover:text-secondary">
-                    Write a review
-                </span>
-                <PencilIcon
-                    className="group-hover:text-secondary"
-                    width={18}
-                    height={18}
-                />
-            </a>
+            {!user && (
+                <a
+                    href="/signup"
+
+                    className="text-md font-bold flex items-center gap-2 group "
+                >
+                    <span className="group-hover:text-secondary">
+                        Write a review
+                    </span>
+                    <PencilIcon
+                        className="group-hover:text-secondary"
+                        width={18}
+                        height={18}
+                    />
+                </a>
+            )}
         </div>
     )
 }
